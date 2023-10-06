@@ -43,7 +43,7 @@ class Command(BaseCommand):
             # word.count = found
             print('Запрос:', word)
 
-        for page in range(1):                                     # Просмотр первых 10 страниц (по 20 вакансий)
+        for page in range(2):                                     # Просмотр первых 10 страниц (по 20 вакансий)
             params = {
                 'text': text_vacancies,
                 'page': page,
@@ -52,7 +52,7 @@ class Command(BaseCommand):
             }
             result = requests.get(url_vacancies, params=params).json()
 
-            for p in range(10):                                         # обработка 20 вакансий на странице
+            for p in range(20):                                         # обработка 20 вакансий на странице
                 count += 1
                 if count >= found:
                     break
@@ -129,7 +129,6 @@ class Command(BaseCommand):
                         print('w_s done', new.count)
                     else:
                         r.count += 1
-
                         r.save()
                         print('w_s not edit', r.count)
                     print(count_perc)
