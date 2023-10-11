@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Требуемые навыки
+{% endblock %}
+
+{% block content %}
+<ul>
+    {% for item in object_list %}
+    <li>
+        {{ item.id_skill }}
+        <br>
+        {{ item.count }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

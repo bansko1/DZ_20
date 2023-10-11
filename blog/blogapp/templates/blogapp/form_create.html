@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Создание запроса
+    Форма для связи
 {% endblock %}
 
 {% block content %}
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Контакты</p>
+                        <p>Хотите связаться с нами? Заполните форму ниже, чтобы отправить мне сообщение, и я свяжусь с вами как можно скорее!</p>
                         <div class="my-5">
+
                             <form method="post" id="contactForm">
-                                Телефон для связи: 222-322-223.
+
+                                {% csrf_token %}
+                                {{ form.as_p }}
+
+                                <button type="submit" class="btn btn-primary" id="sendMessageButton" >Send</button>
                             </form>
                         </div>
                     </div>
