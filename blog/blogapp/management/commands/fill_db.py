@@ -4,6 +4,10 @@ import requests
 
 
 class Command(BaseCommand):
+    def __init__(self, vacancy, pages):
+        super().__init__()
+        self.vac = vacancy
+        self.pages = pages
     def handle(self, *args, **options):
 
         count = 0
@@ -13,8 +17,8 @@ class Command(BaseCommand):
         list_words = []
         list_vacancy = []
         # text_vacancies = 'python developer'    # Название вакансии
-        text_vacancies = 'js developer'          # Название вакансии
-
+        # text_vacancies = 'python developer'          # Название вакансии
+        text_vacancies = self.vac  # Название вакансии
         url_vacancies = 'https://api.hh.ru/vacancies'
         params = {
             'text': text_vacancies,
@@ -43,7 +47,7 @@ class Command(BaseCommand):
             # word.count = found
             print('Запрос:', word)
 
-        for page in range(2):                                     # Просмотр первых 10 страниц (по 20 вакансий)
+        for page in range(self.pages):                                     # Просмотр первых 10 страниц (по 20 вакансий)
             params = {
                 'text': text_vacancies,
                 'page': page,
@@ -124,7 +128,7 @@ class Command(BaseCommand):
                     r = Word_skill.objects.filter(id_word=word, id_skill=skill).first()
                     if not r:
                         new = Word_skill.objects.create(id_word=word, id_skill=skill,
-                                                  count=1.0, percent=0.0)
+                                                  count=1.0, percent=0.0)               # Создание объекта "навыки по запросам"
 
                         print('w_s done', new.count)
                     else:

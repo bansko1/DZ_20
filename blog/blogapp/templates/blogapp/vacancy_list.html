@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Вакансии
+{% endblock %}
+
+{% block content %}
+Запрос: {{ object_list.first.word }} - {{ object_list.first.area }}
+<br>
+<br>
+<!--<p>{{ object_list|length }}</p>-->
+
+
+    {% for item in object_list %}
+
+<!--    <li>-->
+
+        {{ forloop.counter }} -  {{ item.name }}
+         от {{ item.salary_from }} до {{ item.salary_to }}
+    <br>
+<!--    </li>-->
+
+    {% endfor %}
+
+
+{% endblock %}

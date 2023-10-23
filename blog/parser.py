@@ -40,4 +40,4 @@ def parse(text_vacancies):
     return key_skills, area, salary
 
 if __name__ == '__main__':
-    parse('js developer')
+    parse('python developer')

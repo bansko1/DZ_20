@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ name }}
+    города
 {% endblock %}
 
 {% block content %}
 <h1>{{ name }}</h1>
-
+<!--{{object_list}}-->
 
 <ul>
     {% for item in object_list %}
     <li>
-        <a href="{% url 'blog:word_detail' pk=item.pk %}">
+
 
          {{ item.name }} id={{ item.pk }}
-        </a>
         /
-        <a href="{% url 'blog:word_delete' pk=item.pk %}">
-            Удалить
+        <a href="{% url 'blog:vacancy_list' %}">
+            Отобрать вакансии
         </a>
+
     </li>
     {% endfor %}
-    <a href="{% url 'blog:word_create' %}">Создать</a>
+
 
 </ul>
 {% endblock %}

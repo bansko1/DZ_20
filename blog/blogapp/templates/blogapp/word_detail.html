@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Навык
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+
+
+        По запросу
+            <br>
+
+            <h2>{{ object.name }}</h2>
+
+
+           найдено {{ object.count }} вакансий - {{ object.pk }}
+        <br>
+        <a href="{% url 'blog:ws_list' %}">
+            <h2>Отобрать навыки</h2>
+        </a>
+    </div>
+</div>
+{% endblock %}

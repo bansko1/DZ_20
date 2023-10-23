@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Требуемые навыки
+    Навыки
 {% endblock %}
 
 {% block content %}
+Запрос: {{ object_list.first.id_word }}
+<!--Запрос: python developer-->
+<br>
 <ul>
-    {% for item in object_list %}
-    <li>
-        {{ item.id_skill }}
+    {% for item in object_list|dictsortreversed:"count" %}
+<!--    <li>-->
+        {{ forloop.counter }} - {{ item.id_skill }} - {{ item.count }}
         <br>
-        {{ item.count }}
-    </li>
+<!--    </li>-->
     {% endfor %}
+
 </ul>
 {% endblock %}
