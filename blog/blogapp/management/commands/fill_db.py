@@ -8,6 +8,7 @@ class Command(BaseCommand):
         super().__init__()
         self.vac = vacancy
         self.pages = pages
+
     def handle(self, *args, **options):
 
         count = 0
@@ -19,6 +20,7 @@ class Command(BaseCommand):
         # text_vacancies = 'python developer'    # Название вакансии
         # text_vacancies = 'python developer'          # Название вакансии
         text_vacancies = self.vac  # Название вакансии
+
         url_vacancies = 'https://api.hh.ru/vacancies'
         params = {
             'text': text_vacancies,
@@ -70,6 +72,7 @@ class Command(BaseCommand):
                 salary = result_one_vac['salary']                       # словарь с данными по зарплате
                 sity = result_one_vac['area']                           # словарь с названием города
                 vac_name = result_one_vac['name']
+                # url = item_one_vacancy
                 print(vac_name)
                 # ****************************************
                 # word = Word.objects.get(name=text_vacancies)
@@ -116,7 +119,7 @@ class Command(BaseCommand):
                     # print(vac_name)
                     # print(salary_from, salary_to)
                     vacancy = Vacancy.objects.create(name=vac_name, salary_from=salary_from, salary_to=salary_to,
-                                                     word=word, area=area)                 # Создание объекта "вакансия"
+                                                     word=word, area=area, url=item_one_vacancy['alternate_url'])                 # Создание объекта "вакансия"
 
                     print(vacancy)
 

@@ -23,6 +23,7 @@ class Vacancy(models.Model):                                # Модель Ва�
     name = models.CharField(max_length=50)
     salary_from = models.IntegerField(default=0)
     salary_to = models.IntegerField(default=0)
+    url = models.URLField()                                                 # Добавление ссылки на вакансию
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     def __str__(self):

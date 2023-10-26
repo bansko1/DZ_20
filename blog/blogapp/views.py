@@ -6,7 +6,7 @@ from django.views.generic import ListView, FormView, TemplateView, DetailView, C
 from django.shortcuts import render
 
 from .models import Word_skill, Word, Vacancy, Area
-from .forms import ContactForm, ReqForm
+from .forms import ContactForm, ReqForm, WordCreateForm
 from blogapp.management.commands.fill_db import Command
 
 
@@ -15,10 +15,10 @@ from blogapp.management.commands.fill_db import Command
 class ContView(TemplateView):                    # Класс для отображения контактрной информации
     template_name = 'blogapp/contact.html'
 
-class VacancyListView(ListView):                        # Класс для отображения вакансий
-    model = Vacancy
-    template_name = 'blogapp/vacancy_list.html'
-    queryset = Vacancy.objects.filter(word=27, area=80)
+# class VacancyListView(ListView):                        # Класс для отображения вакансий
+#     model = Vacancy
+#     template_name = 'blogapp/vacancy_list.html'
+#     queryset = Vacancy.objects.filter(word=27, area=80)
 
 class WordListView(ListView):                           # Класс для отображения списка запросов
     model = Word
@@ -27,7 +27,6 @@ class WordListView(ListView):                           # Класс для от
         context = super().get_context_data(*args, **kwargs)
         context['name'] = 'Запросы'
         return context
-
     def get_queryset(self):
         list_all = Word.objects.all()
         # list_ = list_all[2:]
@@ -47,31 +46,40 @@ class WordDetailView(DetailView):                       # Класс для от
         '''
         return get_object_or_404(Word, pk=self.word_id)
 
-class WordCreateView(CreateView):                       # Класс для создания запроса
-    fields = '__all__'
+def word_skill(request, id):
+    word = Word.objects.get(id=id)
+    skills = Word_skill.objects.filter(id_word=id).all()
+    return render(request, 'blogapp/word_skill.html', context={'word':word, 'skills': skills})
+
+class WordCreateView(FormView):                       # Класс для создания запроса
+    form_class = WordCreateForm
     model = Word
     success_url = reverse_lazy('blog:word_list')
     template_name = 'blogapp/word_create.html'
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        # Получаем данные из формы
+        name = form.cleaned_data['name']
+        pages = form.cleaned_data['pages']
+        try:
+            Word.objects.get(name=name)
+        except ObjectDoesNotExist:
+            com = Command(name, pages)  # Если запроса не существует отбираем вакансии в базу данных
+            com.handle()
+        # v = Word.objects.get(name=name)
+        # s = Word_skill.objects.filter(id_word=v.id).all()
+        return super().form_valid(form)
 
 class WordDeleteView(DeleteView):
     template_name = 'blogapp/word_delete_confirm.html'
     model = Word
     success_url = reverse_lazy('blog:word_list')
 
-
-
-class WsListView(ListView):                         # Класс для отображения навыков по запросам
-    model = Word_skill
-    template_name = 'blogapp/ws_list.html'
-    queryset = Word_skill.objects.filter(id_word=26)
-    # def get(self, request, *args, **kwargs):
-    #     self.id_word = kwargs['pk']
-    #     return super().get(request, *args, **kwargs)
-
 class ContactView(FormView):                        # Класс для создания, заполнения и отображения формы для связи
         form_class = ContactForm
         model = ContactForm
-        success_url = reverse_lazy('blog:ws_list')
+        success_url = reverse_lazy('blog:word_list')
         template_name = 'blogapp/form_create.html'
 
         def form_valid(self, form):
@@ -99,40 +107,24 @@ def word_create(request):
         form = ReqForm(request.POST)
         if form.is_valid():
             req = form.cleaned_data['req']
-            pages = form.cleaned_data['pages']
+            # pages = form.cleaned_data['pages']
             sity = form.cleaned_data['sity']
             # print(req, pages, sep='\n')
             try:
                 Word.objects.get(name=req)
             except ObjectDoesNotExist:
-                com = Command(req, pages)
-                com.handle()
+                # com = Command(req, pages)               # Если запроса не существует отбираем вакансии в базу данных
+                # com.handle()
+                return render(request, 'blogapp/word_text.html', context={'req': req, 'text': 'Такого запроса нет в базе. Создайте запрос.'})
             v = Word.objects.get(name=req)
             a = Area.objects.get(name=sity)
-            s = Word_skill.objects.filter(id_word=v.id).all()
+            # s = Word_skill.objects.filter(id_word=v.id).all()
             vac = Vacancy.objects.filter(word=v, area=a).all()
             # print(vac, v, s, sep='\n')
-            return render(request, 'blogapp/about.html', context={'vac': vac, 'word': v, 'skills': s, 'area': a})
+            return render(request, 'blogapp/about.html', context={'vac': vac, 'word': v, 'area': a})
         else:
             return render(request, 'blogapp/form.html', context={'form': form})
     else:
         form = ReqForm()
         return render(request, 'blogapp/form.html', context={'form': form})
 
-# def result(request):
-#     if request.method == 'POST':
-#         form = ReqForm(request.POST)
-#         if form.is_valid():
-#             vac = form.cleaned_data['vacancy']
-#             pages = form.cleaned_data['pages']
-#             print(vac, pages, sep='\n')
-#             # com = Command(vac, pages, where)
-#             # com.handle()
-#             v = Word.objects.get(name=vac)
-#             s = Word_skill.objects.filter(id_word=v.id).all()
-#             vac = Vacancy.objects.filter(word=v).all()
-#             print(vac, v, s, sep='\n')
-#             return render(request, 'blogapp/about.html', context={'vac': vac, 'word': v, 'skills': s})
-#         else:
-#             # form1 = ReqForm
-#             return render(request, 'blogapp/form.html', context={'form': form})

@@ -7,16 +7,14 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-        <a href="{% url 'blog:ws_list' %}">
-            Удалить?
-            <br>
+
             {{ object.name }}
 
           <form method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Да</button>
           </form>
-        </a>
+
     </div>
 </div>
 {% endblock %}

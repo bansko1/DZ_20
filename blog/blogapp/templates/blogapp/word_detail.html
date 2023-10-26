@@ -15,11 +15,9 @@
             <h2>{{ object.name }}</h2>
 
 
-           найдено {{ object.count }} вакансий - {{ object.pk }}
+           найдено {{ object.count }} вакансий id={{ object.pk }}
         <br>
-        <a href="{% url 'blog:ws_list' %}">
-            <h2>Отобрать навыки</h2>
-        </a>
+
     </div>
 </div>
 {% endblock %}

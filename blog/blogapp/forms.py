@@ -5,7 +5,11 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='e-mail')
     message = forms.CharField(label='Сообщение')
 
+class WordCreateForm(forms.Form):
+    name = forms.CharField(label='Запрос')
+    pages = forms.IntegerField(label='Количество анализируемых страниц ', initial=5)
+
 class ReqForm(forms.Form):
     req = forms.CharField(label='Запрос ')
     sity = forms.CharField(label='Город (отбор вакансий) ')
-    pages = forms.IntegerField(label='Количество анализируемых страниц ', initial=3)
+    # pages = forms.IntegerField(label='Количество анализируемых страниц ', initial=5)

@@ -10,16 +10,9 @@
 
 <ul>
     {% for item in object_list %}
-    <li>
 
-
-         {{ item.name }} id={{ item.pk }}
-        /
-        <a href="{% url 'blog:vacancy_list' %}">
-            Отобрать вакансии
-        </a>
-
-    </li>
+         {{ forloop.counter }} - {{ item.name }} id={{ item.pk }}
+    <br>
     {% endfor %}
 
 
