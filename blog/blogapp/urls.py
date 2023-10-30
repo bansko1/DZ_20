@@ -11,7 +11,6 @@ urlpatterns = [
     path('word-create/', views.WordCreateView.as_view(), name='word_create'),
     path('word-delete/<int:pk>/', views.WordDeleteView.as_view(), name='word_delete'),
     path('area-list/', views.AreaListView.as_view(), name='area_list'),
-    path('form/', views.word_create, name='form'),
+    path('form/', views.vac_create, name='form'),
     path('word-skill/<int:id>/', views.word_skill, name='word_skill'),
-    # path('word-text/', views.word_create, name='word_text'),
 ]

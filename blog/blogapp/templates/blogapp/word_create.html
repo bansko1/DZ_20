@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Создание запроса
+Создание запроса
 {% endblock %}
 
 {% block content %}
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-<!--                        {{ req }} - {{ text }}-->
-                        <p>Создайте запрос:</p>
-                        <div class="my-5">
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
 
-                            <form method="post" id="contactForm">
+            <p>Создайте запрос:</p>
+            <div class="my-5">
 
-                                {% csrf_token %}
-                                {{ form.as_p }}
+                <form method="post" id="contactForm">
 
-                                <button type="submit" class="btn btn-primary" id="sendMessageButton" >Создать запрос</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Создать запрос</button>
+                </form>
             </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
