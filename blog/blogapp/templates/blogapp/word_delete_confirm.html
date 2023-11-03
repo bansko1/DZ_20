@@ -10,9 +10,10 @@
 
             {{ object.name }}
 
-          <form method="post">
+          <form method="post" id="contactForm">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Да</button>
+              {{ form.as_p }}
+            <button type="submit" class="btn btn-danger" id="sendMessageButton">Да</button>
           </form>
 
     </div>

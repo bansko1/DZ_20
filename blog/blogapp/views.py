@@ -57,13 +57,13 @@ def word_skill(request, id):  # Функция для отображения н�
     return render(request, 'blogapp/word_skill.html', context={'word': word, 'skills': skills})
 
 
-class WordCreateView(UserPassesTestMixin, FormView):  # Класс для создания запроса (только суперпользователь)
+class WordCreateView(UserPassesTestMixin, FormView):  # Класс для создания поискового запроса (только суперпользователь)
     form_class = WordCreateForm
     model = Word
     success_url = reverse_lazy('blog:word_list')
     template_name = 'blogapp/word_create.html'
 
-    def test_func(self):
+    def test_func(self):  # Класс для создания запроса (только суперпользователь)
         return self.request.user.is_superuser
 
     def form_valid(self, form):
@@ -78,7 +78,6 @@ class WordCreateView(UserPassesTestMixin, FormView):  # Класс для соз
         except ObjectDoesNotExist:
             com = Command(name, pages, self.request.user)  # Создаем запрос и заполняем по нему базу данных
             com.handle()
-        # form.instance.user = self.request.user
         return super().form_valid(form)
 
 
@@ -87,13 +86,13 @@ class WordDeleteView(UserPassesTestMixin, DeleteView):  # Класс для уд
     model = Word
     success_url = reverse_lazy('blog:word_list')
 
-    def test_func(self):
+    def test_func(self):  # Класс для создания запроса (только суперпользователь)
         return self.request.user.is_superuser
 
 
 class ContactView(FormView):  # Класс для создания, заполнения и отображения формы для связи (любые пользователи)
     form_class = ContactForm
-    model = ContactForm
+    # model = ContactForm
     success_url = reverse_lazy('blog:word_list')
     template_name = 'blogapp/form_create.html'
 

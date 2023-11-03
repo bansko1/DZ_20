@@ -26,6 +26,11 @@ class Word(models.Model):  # Модель Запросы
     def __str__(self):
         return f'{self.name}'
 
+    def what_count(self):
+        return bool(self.count > 1000)
+
+    def some_metod(self):
+        return 'Привет из метода some_metod !'
 
 class Vacancy(models.Model):  # Модель Вакансии
     name = models.CharField(max_length=50)
