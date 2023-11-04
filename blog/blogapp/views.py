@@ -64,8 +64,8 @@ class WordCreateView(UserPassesTestMixin, FormView):  # Класс для соз
     template_name = 'blogapp/word_create.html'
 
     def test_func(self):  # Класс для создания запроса
-        # return self.request.user.is_superuser  # только суперпользователь
-        return self.request.user.is_autor == True  # только автор
+        return self.request.user.is_superuser  # только суперпользователь
+        # return self.request.user.is_autor == True  # только автор
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
