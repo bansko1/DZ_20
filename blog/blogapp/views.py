@@ -63,8 +63,9 @@ class WordCreateView(UserPassesTestMixin, FormView):  # Класс для соз
     success_url = reverse_lazy('blog:word_list')
     template_name = 'blogapp/word_create.html'
 
-    def test_func(self):  # Класс для создания запроса (только суперпользователь)
-        return self.request.user.is_superuser
+    def test_func(self):  # Класс для создания запроса
+        # return self.request.user.is_superuser  # только суперпользователь
+        return self.request.user.is_autor == True  # только автор
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -86,8 +87,8 @@ class WordDeleteView(UserPassesTestMixin, DeleteView):  # Класс для уд
     model = Word
     success_url = reverse_lazy('blog:word_list')
 
-    def test_func(self):  # Класс для создания запроса (только суперпользователь)
-        return self.request.user.is_superuser
+    def test_func(self):  # Класс для создания запроса
+        return self.request.user.is_superuser  # только суперпользователь
 
 
 class ContactView(FormView):  # Класс для создания, заполнения и отображения формы для связи (любые пользователи)
