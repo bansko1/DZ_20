@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Города
+{% endblock %}
+
+{% block content %}
+<h1>{{ name }}</h1>
+<!--{{object_list}}-->
+
+<ul>
+    {% for item in object_list %}
+
+         {{ forloop.counter }} - {{ item.name }} id={{ item.pk }}
+    <br>
+    {% endfor %}
+
+
+</ul>
+{% endblock %}

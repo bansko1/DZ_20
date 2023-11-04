@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ name }}</h1>
+
+
+<ul>
+
+    {% for item in object_list %}
+    <li>
+        <a href="{% url 'blog:word_detail' pk=item.pk %}">
+
+         {{ item.name }} id={{ item.pk }}
+        </a>
+        /
+                <a href="{% url 'blog:word_skill' id=item.id %}">
+            Смотреть навыки
+        </a>
+        /
+        <a href="{% url 'blog:word_delete' pk=item.pk %}">
+            Удалить
+        </a>
+    </li>
+    {% endfor %}
+    <br>
+    <a type="submit" class="btn btn-primary" href="{% url 'blog:word_create' %}">Создать</a>
+</ul>
+{% endblock %}
