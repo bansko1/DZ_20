@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, FormView, TemplateView, DetailView, CreateView, DeleteView
@@ -56,6 +57,12 @@ def word_skill(request, id):  # Функция для отображения н�
     skills = Word_skill.objects.filter(id_word=id).all()
     return render(request, 'blogapp/word_skill.html', context={'word': word, 'skills': skills})
 
+def word_area(request, id):  # Функция для отображения городов по конкретному запросу
+    word = Word.objects.get(id=id)
+    areas = Area.objects.filter(id_word=id).all()
+    # areas = Word_area.objects.all()
+    return render(request, 'blogapp/word_area.html', context={'word': word, 'areas': areas})
+
 
 class WordCreateView(UserPassesTestMixin, FormView):  # Класс для создания поискового запроса (только суперпользователь)
     form_class = WordCreateForm
@@ -73,7 +80,7 @@ class WordCreateView(UserPassesTestMixin, FormView):  # Класс для соз
         # Получаем данные из формы
         name = form.cleaned_data['name']
         pages = form.cleaned_data['pages']
-
+        # print(Word.objects.all())
         try:
             Word.objects.get(name=name)
         except ObjectDoesNotExist:
@@ -118,6 +125,9 @@ class AreaListView(ListView):  # Класс для отображения спи
     model = Area
     template_name = 'blogapp/area_list.html'
 
+    context_object_name = 'areas'
+    paginate_by = 20                            # Вывод по 20 строк на страницу
+
 
 @login_required  # Только залогиненный
 def vac_create(request):  # Функция для заполнения формы и отбора вакансий по запросу и городу
@@ -132,11 +142,49 @@ def vac_create(request):  # Функция для заполнения форм�
                 return render(request, 'blogapp/word_text.html',
                               context={'req': req, 'text': 'Нет такого запроса. Создайте запрос.'})
             v = Word.objects.get(name=req)
-            a = Area.objects.get(name=sity)
+            a = Area.objects.get(name=sity, id_word=v)
             vac = Vacancy.objects.filter(word=v, area=a).all()
+            # pag_vac = Paginator(vac, 10)
+            #
+            # page = request.GET.get('page')
+            # try:
+            #     vac_p = pag_vac.page(page)
+            # except PageNotAnInteger:
+            #     vac_p = pag_vac.page(1)
+            # except EmptyPage:
+            #     vac_p = pag_vac.page(pag_vac.num_pages)
+
             return render(request, 'blogapp/about.html', context={'vac': vac, 'word': v, 'area': a})
         else:
             return render(request, 'blogapp/form.html', context={'form': form})
     else:
         form = ReqForm()
         return render(request, 'blogapp/form.html', context={'form': form})
+
+# class VacancyListView(ListView): # Класс для отображения списка вакансий
+#     model = Vacancy
+#     template_name = 'blogapp/vac_list.html'
+#
+#     def get_queryset(self):
+#         list_all = Vacancy.objects.all()
+#         # list_ = list_all[2:]
+#         # word = Word.objects.get(id=id)
+#         # areas = Area.objects.filter(id_word=id).all()
+#         # context = {'word': word, 'areas': areas})
+#         return list_all
+
+    # def get_object(self, queryset=None):
+    #     '''
+    #     Получение этого объекта
+    #     :param queryset:
+    #     :return:
+    #     '''
+    #     return get_object_or_404(Vacancy, pk=self.context_object_name)
+
+def vac_word_area(request, id):  # Функция для отображения вакансий по городам и по конкретному запросу
+
+    area = Area.objects.get(id=id)
+    word = Word.objects.get(area=area)
+    vacan = Vacancy.objects.filter(word=word, area=area)
+
+    return render(request, 'blogapp/vac_list.html', context={'word': word, 'area': area, 'vacan':vacan})

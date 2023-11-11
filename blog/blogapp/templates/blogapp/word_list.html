@@ -21,6 +21,10 @@
             Смотреть навыки
         </a>
         /
+                <a href="{% url 'blog:word_area' id=item.id %}">
+            Смотреть города
+        </a>
+        /
         <a href="{% url 'blog:word_delete' pk=item.pk %}">
             Удалить
         </a>

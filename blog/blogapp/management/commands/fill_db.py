@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from blogapp.models import Skill, Area, Word, Vacancy, Word_skill
 import requests
@@ -39,16 +40,11 @@ class Command(BaseCommand):
         print(f'Всего страниц: {pages}, Вакансий на странице: {per_page}')
 
         # ****************************************
-        words = Word.objects.all()
-        print(words)  # <QuerySet []>
-        # for item in words:                  # Не работает цикл - нет item
-        if text_vacancies not in list_words:
-            print(text_vacancies)
-            list_words.append(text_vacancies)
-            print(list_words)
+        try:
+            word = Word.objects.get(name=text_vacancies)
+        except ObjectDoesNotExist:
             word = Word.objects.create(name=text_vacancies, count=found,
                                        user=user_name)  # создаем query set объектов с вакансиями
-            # word.count = found
             print('Запрос:', word)
 
         for page in range(self.pages):  # Просмотр первых 10 страниц (по 20 вакансий)
@@ -79,24 +75,26 @@ class Command(BaseCommand):
                 # ****************************************
                 # word = Word.objects.get(name=text_vacancies)
 
-                sities = Area.objects.all()
-                for item in sities:
-                    list_sities.append(item.name)
-                if sity['name'] not in list_sities:
-                    area = Area.objects.create(name=sity['name'])  # Создание объекта "город"
-                    print(area)
-                else:
-                    area = Area.objects.get(name=sity['name'])
+                try:
+                    area = Area.objects.get(name=sity['name'], id_word=word)
+                except ObjectDoesNotExist:
+                    area = Area.objects.create(name=sity['name'], id_word=word)  # Создание объекта "город"
+                print(area)
 
                 skills = Skill.objects.all()
-                for item in skills:
-                    list_skills.append(item.name)  # Список всех навыков
-
                 if key_skills:
                     for item in key_skills:
-                        if item['name'] not in list_skills:
-                            skill = Skill.objects.create(name=item['name'])  # Создание объектов "навыки"
-                            print(skill)
+                        try:
+                            skill = Skill.objects.get(name=item['name'])
+                        except ObjectDoesNotExist:
+                            skill = Skill.objects.create(name=item['name'])  # Создание объекта "навык"
+                        print(skill)
+
+                # if key_skills:
+                #     for item in key_skills:
+                #         if item['name'] not in list_skills:
+                #             skill = Skill.objects.create(name=item['name'])  # Создание объектов "навыки"
+                #             print(skill)
 
                 if vac_name not in list_vacancy:
                     list_vacancy.append(vac_name)
@@ -118,7 +116,7 @@ class Command(BaseCommand):
 
                     print(vacancy)
 
-                word = Word.objects.get(name=text_vacancies)
+                # word = Word.objects.get(name=text_vacancies)
                 for item in key_skills:
                     count_perc += 1
                     skill = Skill.objects.get(name=item['name'])
@@ -134,3 +132,5 @@ class Command(BaseCommand):
                         r.save()
                         print('w_s not edit', r.count)
                     print(count_perc)
+
+

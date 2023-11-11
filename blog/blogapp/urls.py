@@ -13,4 +13,6 @@ urlpatterns = [
     path('area-list/', views.AreaListView.as_view(), name='area_list'),
     path('form/', views.vac_create, name='form'),
     path('word-skill/<int:id>/', views.word_skill, name='word_skill'),
+    path('word-area/<int:id>/', views.word_area, name='word_area'),
+    path('vac-list/<int:id>/', views.vac_word_area, name='vac_list'),
 ]

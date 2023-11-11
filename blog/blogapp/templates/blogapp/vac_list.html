@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Результаты
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="my-5">
+                Запрос: {{ word.name }} <br>
+                Город: {{ area.name }}
+                <br>
+
+
+                <br>
+                <br>
+                {% for item in vacan %}
+                {{ forloop.counter }} - {{ item.name }} {{ item.salary_from }}-{{ item.salary_to }}
+                <br>
+                <a target="_blank" href="{{ item.url }}">Ссылка</a>
+                <br>
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

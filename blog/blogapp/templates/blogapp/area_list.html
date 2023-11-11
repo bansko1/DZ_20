@@ -5,16 +5,28 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ name }}</h1>
+<h2>Все города</h2>
 <!--{{object_list}}-->
 
 <ul>
-    {% for item in object_list %}
+    {% for item in areas %}
 
-         {{ forloop.counter }} - {{ item.name }} id={{ item.pk }}
+    {#     {{ forloop.counter }} - #}
+   id={{ item.pk }} - {{ item.name }}
     <br>
     {% endfor %}
-
-
 </ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">Предыдущая</a>
+        {% endif %}
+        <span class="current">
+           | Стр. - {{ page_obj.number }}/{{ page_obj.paginator.num_pages }} |
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">Следующая</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
