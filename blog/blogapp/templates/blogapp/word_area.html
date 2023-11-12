@@ -1,50 +1,62 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Результаты
+Результаты
 {% endblock %}
 
 {% block content %}
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Результат:</p>
-                        <div class="my-5">
-                            Города по запросу:
-                            <br>
-                            {{ word.name }}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
 
-                            <br>
-                            <br>
+            <div class="my-5">
+                <h4>Запрос:</h4>
 
-                            <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Номер</th>
-                                            <th scope="col">Город</th>
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {% for item in areas %}
-
-                                            <tr>
-                                                <th scope="row">{{ forloop.counter }} </th>
-                                                <td>{{ item.name }} /
-                                                <a href="{% url 'blog:vac_list' id=item.id %}">
-                                                    Смотреть навыки
-                                                </a>
-                                                </td>
-                                            </tr>
+                {{ word.name }}
 
 
-                                        {% endfor %}
-                                    </tbody>
-                            </table>
-                                        <br>
-                        </div>
-                    </div>
-                </div>
+                <br>
+
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Номер</th>
+                        <th scope="col">Город</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for item in areas %}
+
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.name }} /
+                            <a href="{% url 'blog:vac_list' id=item.id %}">
+                                Смотреть вакансии
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="pagination">
+                <span class="step-links">
+                    {% if areas.has_previous %}
+                    <a href="?page={{areas.previous_page_number}}">Предыдущие</a>
+                    {% endif %}
+                    <span class="current">
+                       | Стр. - {{ areas.number }}/{{ areas.paginator.num_pages }} |
+                    </span>
+                    {% if areas.has_next %}
+                    <a href="?page={{areas.next_page_number}}">Следующие 10</a>
+                    {% endif %}
+                </span>
+</div>
 {% endblock %}

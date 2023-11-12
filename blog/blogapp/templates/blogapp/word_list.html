@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ name }}
+{{ name }}
 {% endblock %}
 
 {% block content %}
@@ -14,15 +14,15 @@
     <li>
         <a href="{% url 'blog:word_detail' pk=item.pk %}">
 
-         {{ item.name }} id={{ item.pk }}
+            {{ item.name }} id={{ item.pk }}
         </a>
         /
-                <a href="{% url 'blog:word_skill' id=item.id %}">
-            Смотреть навыки
+        <a href="{% url 'blog:word_skill' id=item.id %}">
+            Навыки по запросу
         </a>
         /
-                <a href="{% url 'blog:word_area' id=item.id %}">
-            Смотреть города
+        <a href="{% url 'blog:word_area' id=item.id %}">
+            Города вакансий во запросу
         </a>
         /
         <a href="{% url 'blog:word_delete' pk=item.pk %}">

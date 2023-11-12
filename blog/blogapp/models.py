@@ -6,9 +6,9 @@ from userapp.models import BlogUser
 class Skill(models.Model):
     name = models.CharField(max_length=16, unique=True)
 
-    # count = models.IntegerField(blank=True)
     def __str__(self):
         return self.name
+
 
 class Word(models.Model):  # Модель Запросы
     name = models.CharField(max_length=56, unique=True)
@@ -24,12 +24,14 @@ class Word(models.Model):  # Модель Запросы
     def some_metod(self):
         return 'Привет из метода some_metod !'
 
+
 class Area(models.Model):  # Модель Города
     name = models.CharField(max_length=16)
     id_word = models.ForeignKey(Word, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name} - {self.id_word}'
+
 
 class Vacancy(models.Model):  # Модель Вакансии
     name = models.CharField(max_length=50)
@@ -42,9 +44,6 @@ class Vacancy(models.Model):  # Модель Вакансии
     def __str__(self):
         return f'{self.name} - {self.area} от {self.salary_from} до {self.salary_to}'
 
-# class Word_area(models.Model):
-#     id_word = models.ForeignKey(Word, on_delete=models.CASCADE)
-#     id_area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
 class Word_skill(models.Model):  # Модель Навыки
     id_word = models.ForeignKey(Word, on_delete=models.CASCADE)
@@ -54,5 +53,3 @@ class Word_skill(models.Model):  # Модель Навыки
 
     def __str__(self):
         return f'{self.id_word} {self.id_skill} count={self.count}'
-
-
