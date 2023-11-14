@@ -54,7 +54,9 @@ class WordDetailView(DetailView):  # Класс для отображения д
 @login_required  # Только залогиненный
 def word_skill(request, id):  # Функция для отображения навыков по конкретному запросу
     word = Word.objects.get(id=id)
-    skills = Word_skill.objects.filter(id_word=id).all()
+    # skills = Word_skill.objects.filter(id_word=id).all()
+    skills = Word_skill.objects.filter(id_word=id).select_related(
+        'id_skill').all()  # Оптимизация запросов  в БД с помощью select_related
     return render(request, 'blogapp/word_skill.html', context={'word': word, 'skills': skills})
 
 
@@ -137,8 +139,11 @@ class AreaListView(ListView):  # Класс для отображения спи
     model = Area
     template_name = 'blogapp/area_list.html'
 
-    context_object_name = 'areas'
+    # context_object_name = 'areas'
     paginate_by = 15  # Вывод по 20 строк на страницу
+
+    def get_queryset(self, **kwargs):
+        return Area.objects.all().select_related('id_word')  # Оптимизация запросов  в БД с помощью select_related
 
 
 @login_required  # Только залогиненный
@@ -149,11 +154,11 @@ def vac_create(request):  # Функция для заполнения форм�
             req = form.cleaned_data['req']
             sity = form.cleaned_data['sity']
             try:
-                Word.objects.get(name=req)
+                v = Word.objects.get(name=req)  # Убрал дублирование запроса
             except ObjectDoesNotExist:
                 return render(request, 'blogapp/word_text.html',
                               context={'req': req, 'text': 'Нет такого запроса. Создайте запрос.'})
-            v = Word.objects.get(name=req)
+            # v = Word.objects.get(name=req)      Убрал дублирование запросов
             a = Area.objects.get(name=sity, id_word=v)
             vac = Vacancy.objects.filter(word=v, area=a).all()
 
