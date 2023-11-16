@@ -140,7 +140,7 @@ class AreaListView(ListView):  # Класс для отображения спи
     template_name = 'blogapp/area_list.html'
 
     # context_object_name = 'areas'
-    paginate_by = 15  # Вывод по 20 строк на страницу
+    paginate_by = 15  # Вывод по 15 строк на страницу
 
     def get_queryset(self, **kwargs):
         return Area.objects.all().select_related('id_word')  # Оптимизация запросов  в БД с помощью select_related
@@ -158,8 +158,12 @@ def vac_create(request):  # Функция для заполнения форм�
             except ObjectDoesNotExist:
                 return render(request, 'blogapp/word_text.html',
                               context={'req': req, 'text': 'Нет такого запроса. Создайте запрос.'})
-            # v = Word.objects.get(name=req)      Убрал дублирование запросов
-            a = Area.objects.get(name=sity, id_word=v)
+            # v = Word.objects.get(name=req)      # Убрал дублирование запросов
+            try:
+                a = Area.objects.get(name=sity, id_word=v)
+            except ObjectDoesNotExist:
+                return render(request, 'blogapp/word_text2.html',
+                              context={'req': req, 'sity': sity, 'text': 'В городе нет вакансий по запросу'})
             vac = Vacancy.objects.filter(word=v, area=a).all()
 
             return render(request, 'blogapp/about.html', context={'vac': vac, 'word': v, 'area': a})
