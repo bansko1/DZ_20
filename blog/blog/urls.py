@@ -17,12 +17,21 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from blogapp.api_views import SkillViewSet, WordlViewSet
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'skills', SkillViewSet)
+router.register(r'words', WordlViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blogapp.urls', namespace='blog')),
     path('users/', include('userapp.urls', namespace='users')),
     path("__debug__/", include("debug_toolbar.urls")),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/v0/', include(router.urls)),
+    # path('words/', include(router.urls)),
 ]
 # if settings.DEBUG:
 #     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

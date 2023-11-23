@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 one_vacancy_url = item_one_vacancy['url']
                 result_one_vac = requests.get(one_vacancy_url).json()
                 # name_vacancy = result_one_vac['name']                 # название вакансии
-                key_skills = result_one_vac['key_skills']  # словарь ключевых навыков в одной вакансии
+                key_skills = result_one_vac['key_skills']  # список словарей ключевых навыков в одной вакансии
                 salary = result_one_vac['salary']  # словарь с данными по зарплате
                 sity = result_one_vac['area']  # словарь с названием города
                 vac_name = result_one_vac['name']

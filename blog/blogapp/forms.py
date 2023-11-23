@@ -3,13 +3,13 @@ from .models import Word
 
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label='Название')
+    name = forms.CharField(max_length=32, label='От кого')
     email = forms.EmailField(label='e-mail')
-    message = forms.CharField(label='Сообщение')
+    message = forms.CharField(label='Ваше сообщение')
 
 
 class WordCreateForm(forms.Form):
-    name = forms.CharField(label='Запрос')
+    name = forms.CharField(max_length=56, label='Запрос')
     pages = forms.IntegerField(label='Количество анализируемых страниц ', initial=2)
 
     class Meta:

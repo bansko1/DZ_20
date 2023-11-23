@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-+7%=&x$j67l@@&j15(m%b109xv-wea+4^)oumjiao2^#*a-sd+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blogapp',
     'userapp',
-    'debug_toolbar'
+    'debug_toolbar',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +85,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'NAME': 'sitedb',
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'USER': 'django',
+    #     'PASSWORD': 'nu123456',
+    #     'HOST': 'localhost'
+    # }
 }
 
 
@@ -134,10 +143,12 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Переназначение модели пользователя
 AUTH_USER_MODEL = 'userapp.BlogUser'
 
+# Переходы
+# Куда идти после логина
 LOGIN_REDIRECT_URL = '/'
-
+# Куда идти после выхода
 LOGOUT_REDIRECT_URL = '/'
-
+# Куда идти на логин
 LOGIN_URL = '/users/login/'
 
 # Debug Toolbar
@@ -146,3 +157,12 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+

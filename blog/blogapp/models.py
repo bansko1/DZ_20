@@ -4,7 +4,7 @@ from userapp.models import BlogUser
 
 # Create your models here.
 class Skill(models.Model):
-    name = models.CharField(max_length=16, unique=True)
+    name = models.CharField(max_length=56, unique=True)
 
     def __str__(self):
         return self.name
@@ -26,7 +26,7 @@ class Word(models.Model):  # Модель Запросы
 
 
 class Area(models.Model):  # Модель Города
-    name = models.CharField(max_length=16)
+    name = models.CharField(max_length=32)
     id_word = models.ForeignKey(Word, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Area(models.Model):  # Модель Города
 
 
 class Vacancy(models.Model):  # Модель Вакансии
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     salary_from = models.IntegerField(default=0)
     salary_to = models.IntegerField(default=0)
     url = models.URLField()  # Добавление ссылки на вакансию

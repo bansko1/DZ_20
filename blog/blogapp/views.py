@@ -127,9 +127,9 @@ class ContactView(FormView):  # Класс для создания, заполн
         email = form.cleaned_data['email']
         send_mail(
             'Contact message',
-            f'Ваше сообщение {message} принято',
-            'test@test.ru',
-            [email],
+            f'Уважаемый {name}, Ваше сообщение {message} принято',
+            [email],    # from
+            ['alexvp@bk.ru'],  # To
             fail_silently=True
         )
         return super().form_valid(form)
