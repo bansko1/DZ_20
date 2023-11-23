@@ -17,12 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
-from blogapp.api_views import SkillViewSet, WordlViewSet
+from blogapp.api_views import SkillViewSet, WordlViewSet, VacancylViewSet, AreaViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'skills', SkillViewSet)
 router.register(r'words', WordlViewSet)
+router.register(r'vacancy', VacancylViewSet)
+router.register(r'area', AreaViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
