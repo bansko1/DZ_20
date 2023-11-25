@@ -4,6 +4,11 @@ import requests
 
 
 class Command(BaseCommand):
+    def __init__(self, vacancy, pages):
+        super().__init__()
+        self.vac = vacancy
+        self.pages = pages
+
     def handle(self, *args, **options):
 
         count = 0
@@ -13,7 +18,8 @@ class Command(BaseCommand):
         list_words = []
         list_vacancy = []
         # text_vacancies = 'python developer'    # Название вакансии
-        text_vacancies = 'js developer'          # Название вакансии
+        # text_vacancies = 'python developer'          # Название вакансии
+        text_vacancies = self.vac  # Название вакансии
 
         url_vacancies = 'https://api.hh.ru/vacancies'
         params = {
@@ -43,7 +49,7 @@ class Command(BaseCommand):
             # word.count = found
             print('Запрос:', word)
 
-        for page in range(1):                                     # Просмотр первых 10 страниц (по 20 вакансий)
+        for page in range(self.pages):                                     # Просмотр первых 10 страниц (по 20 вакансий)
             params = {
                 'text': text_vacancies,
                 'page': page,
@@ -52,7 +58,7 @@ class Command(BaseCommand):
             }
             result = requests.get(url_vacancies, params=params).json()
 
-            for p in range(10):                                         # обработка 20 вакансий на странице
+            for p in range(20):                                         # обработка 20 вакансий на странице
                 count += 1
                 if count >= found:
                     break
@@ -66,6 +72,7 @@ class Command(BaseCommand):
                 salary = result_one_vac['salary']                       # словарь с данными по зарплате
                 sity = result_one_vac['area']                           # словарь с названием города
                 vac_name = result_one_vac['name']
+                # url = item_one_vacancy
                 print(vac_name)
                 # ****************************************
                 # word = Word.objects.get(name=text_vacancies)
@@ -112,7 +119,7 @@ class Command(BaseCommand):
                     # print(vac_name)
                     # print(salary_from, salary_to)
                     vacancy = Vacancy.objects.create(name=vac_name, salary_from=salary_from, salary_to=salary_to,
-                                                     word=word, area=area)                 # Создание объекта "вакансия"
+                                                     word=word, area=area, url=item_one_vacancy['alternate_url'])                 # Создание объекта "вакансия"
 
                     print(vacancy)
 
@@ -124,12 +131,11 @@ class Command(BaseCommand):
                     r = Word_skill.objects.filter(id_word=word, id_skill=skill).first()
                     if not r:
                         new = Word_skill.objects.create(id_word=word, id_skill=skill,
-                                                  count=1.0, percent=0.0)
+                                                  count=1.0, percent=0.0)               # Создание объекта "навыки по запросам"
 
                         print('w_s done', new.count)
                     else:
                         r.count += 1
-
                         r.save()
                         print('w_s not edit', r.count)
                     print(count_perc)
