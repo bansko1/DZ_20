@@ -42,7 +42,8 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                                         href="{% url 'blog:contact' %}">Контакты</a></li>
                 {% if user.is_authenticated %}
-                Привет, {{ user.username }} !
+                Привет, <hr>
+                <a href="{% url 'users:profile' pk=user.pk %}">{{ user.username }}</a>!
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'users:logout' %}">Выход</a>
                 </li>
                 {% else %}

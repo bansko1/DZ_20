@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block content %}
+
+Профиль пользователя:
+{{object.username}}
+<br>
+Токен: {% if object.auth_token %} {{ object.auth_token }} {% else %} не создан {% endif %}
+<hr>
+<form action="{% url 'users:update_token' %}">
+    <button type="submit" class="btn btn-primary">Обновить токен</button>
+</form>
+
+{% endblock %}

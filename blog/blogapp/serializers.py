@@ -6,17 +6,16 @@ from rest_framework import routers, serializers, viewsets
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Skill
-        # fields = ['name']
         fields = '__all__'
 class WordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Word
-        fields = ['url', 'name', 'count']
+        exclude = ['user']
+        # fields = ['url', 'name', 'count']
 
 class AreaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Area
-        # fields = ['name']
         fields = '__all__'
 
 class VacancySerializer(serializers.HyperlinkedModelSerializer):
