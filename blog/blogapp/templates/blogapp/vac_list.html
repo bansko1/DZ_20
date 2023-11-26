@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+Результаты
+{% endblock %}
+
+{% block content %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="my-5">
+                <h4>Вакансии:</h4>
+                Запрос: {{ word.name }} <br>
+                Город: {{ area.name }}
+                <br>
+                <br>
+                {% for item in vacan %}
+                {# {{ forloop.counter }} - #}
+                {{ item.id }} - {{ item.name }} {{ item.salary_from }}-{{ item.salary_to }}
+                <br>
+                <a target="_blank" href="{{ item.url }}">Открыть на сайте НН</a>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pagination">
+                <span class="step-links">
+                    {% if vacan.has_previous %}
+                    <a href="?page={{vacan.previous_page_number}}">Предыдущие</a>
+                    {% endif %}
+                    <span class="current">
+                       | Стр. - {{ vacan.number }}/{{ vacan.paginator.num_pages }} |
+                    </span>
+                    {% if vacan.has_next %}
+                    <a href="?page={{vacan.next_page_number}}">Следующие 5</a>
+                    {% endif %}
+                </span>
+</div>
+{% endblock %}

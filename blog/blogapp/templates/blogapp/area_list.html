@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+Города
+{% endblock %}
+
+{% block content %}
+<h4>Все города по запросам</h4>
+
+<ul>
+
+    {% for item in object_list %}
+
+    {{ item.id_word }} -
+    {{ item.name }}
+    <br>
+
+    {% endfor %}
+
+</ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">Предыдущие</a>
+        {% endif %}
+        <span class="current">
+           | Стр. - {{ page_obj.number }}/{{ page_obj.paginator.num_pages }} |
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">Следующие 15</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
