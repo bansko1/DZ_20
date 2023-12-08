@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 #             skill = Skill.objects.create(name=item['name'])  # Создание объектов "навыки"
                 #             print(skill)
 
-                if vac_name not in list_vacancy:
+                if vac_name not in list_vacancy and len(vac_name) < 50:
                     list_vacancy.append(vac_name)
                     # print(list_vacancy)
 

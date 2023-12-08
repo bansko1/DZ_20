@@ -80,6 +80,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'NAME': 'sitedb',
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'USER': 'django',
+    #     'PASSWORD': 'nu123456',
+    #     'HOST': 'localhost'
+    # }
 }
 
 

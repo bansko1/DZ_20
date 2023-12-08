@@ -11,7 +11,7 @@ class Skill(models.Model):
 
 
 class Word(models.Model):  # Модель Запросы
-    name = models.CharField(max_length=56, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     count = models.IntegerField(default=0)
     user = models.ForeignKey(BlogUser, on_delete=models.CASCADE)
 
@@ -26,7 +26,7 @@ class Word(models.Model):  # Модель Запросы
 
 
 class Area(models.Model):  # Модель Города
-    name = models.CharField(max_length=16)
+    name = models.CharField(max_length=50)
     id_word = models.ForeignKey(Word, on_delete=models.CASCADE)
 
     def __str__(self):
