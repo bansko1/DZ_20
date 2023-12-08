@@ -84,11 +84,12 @@ class Command(BaseCommand):
                 skills = Skill.objects.all()
                 if key_skills:
                     for item in key_skills:
-                        try:
-                            skill = Skill.objects.get(name=item['name'])
-                        except ObjectDoesNotExist:
-                            skill = Skill.objects.create(name=item['name'])  # Создание объекта "навык"
-                        print(skill)
+                        if len(item['name']) < 50:    # Проверка на длинну item['name']
+                            try:
+                                skill = Skill.objects.get(name=item['name'])
+                            except ObjectDoesNotExist:
+                                skill = Skill.objects.create(name=item['name'])  # Создание объекта "навык"
+                            print(skill)
 
                 # if key_skills:
                 #     for item in key_skills:
@@ -118,19 +119,20 @@ class Command(BaseCommand):
 
                 # word = Word.objects.get(name=text_vacancies)
                 for item in key_skills:
-                    count_perc += 1
-                    skill = Skill.objects.get(name=item['name'])
-                    print(word, skill)
-                    r = Word_skill.objects.filter(id_word=word, id_skill=skill).first()
-                    if not r:
-                        new = Word_skill.objects.create(id_word=word, id_skill=skill,
-                                                        count=1.0, percent=0.0)  # Создание объекта "навыки по запросам"
+                    if len(item['name']) < 50:  # Проверка на длинну item['name']
+                        count_perc += 1
+                        skill = Skill.objects.get(name=item['name'])
+                        print(word, skill)
+                        r = Word_skill.objects.filter(id_word=word, id_skill=skill).first()
+                        if not r:
+                            new = Word_skill.objects.create(id_word=word, id_skill=skill,
+                                                            count=1.0, percent=0.0)  # Создание объекта "навыки по запросам"
 
-                        print('w_s done', new.count)
-                    else:
-                        r.count += 1
-                        r.save()
-                        print('w_s not edit', r.count)
-                    print(count_perc)
+                            print('w_s done', new.count)
+                        else:
+                            r.count += 1
+                            r.save()
+                            print('w_s not edit', r.count)
+                        print(count_perc)
 
 
