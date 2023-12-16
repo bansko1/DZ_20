@@ -1,5 +1,5 @@
 from django import forms
-from .models import Word
+from .models import Word, Area
 
 
 class ContactForm(forms.Form):
@@ -17,6 +17,11 @@ class WordCreateForm(forms.Form):
         # fields = '__all__'
         exclude = ('count', 'user')
 
+class SearchAreaForm(forms.Form):
+    name = forms.CharField(label='Поиск города', widget=forms.TextInput(attrs={'placeholder':'Название'}))
+    class Meta:
+        model = Area
+        exclude = ('id_word',)
 
 class ReqForm(forms.Form):
     req = forms.CharField(label='Запрос ')

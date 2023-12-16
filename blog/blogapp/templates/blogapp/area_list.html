@@ -5,16 +5,24 @@
 {% endblock %}
 
 {% block content %}
+На странице {{ object_list|length }} городов
+            <br>
+               <form method="get" action="{% url 'blog:search_result' %}" id="contactForm">
+                <input name="q" type="text" placeholder="часть названия города">
+{#                    {% csrf_token %}                 #}
+{#                    {{ form.as_p }}                    #}
+
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Найти</button>
+                </form>
+                <br>
 <h4>Все города по запросам</h4>
 
 <ul>
 
     {% for item in object_list %}
-
-    {{ item.id_word }} -
-    {{ item.name }}
+        {{ item.id_word }} -
+        {{ item.name }}
     <br>
-
     {% endfor %}
 
 </ul>
@@ -27,7 +35,7 @@
            | Стр. - {{ page_obj.number }}/{{ page_obj.paginator.num_pages }} |
         </span>
         {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}">Следующие 15</a>
+        <a href="?page={{page_obj.next_page_number}}">Следующие</a>
         {% endif %}
     </span>
 </div>

@@ -15,4 +15,5 @@ urlpatterns = [
     path('word-skill/<int:id>/', views.word_skill, name='word_skill'),
     path('word-area/<int:id>/', views.word_area, name='word_area'),
     path('vac-list/<int:id>/', views.vac_word_area, name='vac_list'),
+    path('search-result/', views.SearchResultView.as_view(), name='search_result'),
 ]

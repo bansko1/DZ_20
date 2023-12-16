@@ -7,9 +7,10 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, FormView, TemplateView, DetailView, CreateView, DeleteView
 from django.shortcuts import render
+from django.db.models import Q
 
 from .models import Word_skill, Word, Vacancy, Area
-from .forms import ContactForm, ReqForm, WordCreateForm
+from .forms import ContactForm, ReqForm, WordCreateForm, SearchAreaForm
 from blogapp.management.commands.fill_db import Command
 
 
@@ -138,13 +139,16 @@ class ContactView(FormView):  # Класс для создания, заполн
 class AreaListView(ListView):  # Класс для отображения списка городов (любые пользователи)
     model = Area
     template_name = 'blogapp/area_list.html'
-
-    # context_object_name = 'areas'
     paginate_by = 15  # Вывод по 15 строк на страницу
 
-    def get_queryset(self, **kwargs):
-        return Area.objects.all().select_related('id_word')  # Оптимизация запросов  в БД с помощью select_related
-
+class SearchResultView(ListView):
+    model = Area
+    template_name = 'blogapp/search_result.html'
+    paginate_by = 15  # Вывод по 15 строк на страницу
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Area.objects.filter(Q(name__icontains=query))
+        return object_list
 
 @login_required  # Только залогиненный
 def vac_create(request):  # Функция для заполнения формы и отбора вакансий по запросу и городу
