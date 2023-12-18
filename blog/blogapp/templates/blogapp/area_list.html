@@ -5,16 +5,18 @@
 {% endblock %}
 
 {% block content %}
-На странице {{ object_list|length }} городов
-            <br>
+
+            <h5>Поиск по городам</h5>
                <form method="get" action="{% url 'blog:search_result' %}" id="contactForm">
                 <input name="q" type="text" placeholder="часть названия города">
-{#                    {% csrf_token %}                 #}
+{#                    {% csrf_token %}                   #}
 {#                    {{ form.as_p }}                    #}
 
                     <button type="submit" class="btn btn-primary" id="sendMessageButton">Найти</button>
                 </form>
                 <br>
+На странице {{ object_list|length }} городов
+                   <br>
 <h4>Все города по запросам</h4>
 
 <ul>

@@ -140,6 +140,10 @@ class AreaListView(ListView):  # Класс для отображения спи
     model = Area
     template_name = 'blogapp/area_list.html'
     paginate_by = 15  # Вывод по 15 строк на страницу
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SearchAreaForm()
+        return context
 
 class SearchResultView(ListView):
     model = Area
