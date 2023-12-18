@@ -8,9 +8,9 @@
 
             <h5>Поиск по городам</h5>
                <form method="get" action="{% url 'blog:search_result' %}" id="contactForm">
-                <input name="q" type="text" placeholder="часть названия города">
-{#                    {% csrf_token %}                   #}
-{#                    {{ form.as_p }}                    #}
+{#                <input name="q" type="text" placeholder="часть названия города">   #}
+{#                    {% csrf_token %}       #}
+                    {{ form.as_p }}
 
                     <button type="submit" class="btn btn-primary" id="sendMessageButton">Найти</button>
                 </form>

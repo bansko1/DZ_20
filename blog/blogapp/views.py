@@ -142,7 +142,7 @@ class AreaListView(ListView):  # Класс для отображения спи
     paginate_by = 15  # Вывод по 15 строк на страницу
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = SearchAreaForm()
+        context['form'] = SearchAreaForm()             # Указываем поисковую форму
         return context
 
 class SearchResultView(ListView):
@@ -150,9 +150,12 @@ class SearchResultView(ListView):
     template_name = 'blogapp/search_result.html'
     paginate_by = 15  # Вывод по 15 строк на страницу
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        object_list = Area.objects.filter(Q(name__icontains=query))
+        query = self.request.GET.get('name')         # Извлекаем введенное в поле 'name' значение
+        object_list = Area.objects.filter(name__icontains=query)
         return object_list
+
+
+
 
 @login_required  # Только залогиненный
 def vac_create(request):  # Функция для заполнения формы и отбора вакансий по запросу и городу
